@@ -1,0 +1,38 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Launch Program",
+            "program": "${workspaceFolder}",
+            "outFiles": [
+                "${workspaceFolder}/**/*.js"
+            ]
+        },
+        {
+            "name": "Spectron TS debugger",
+            "type": "node",
+            "request": "launch",
+            "cwd": "${workspaceRoot}",
+            "args": ["${workspaceRoot}/spectron-ts/dist/spectronRunner.js"]
+        },
+        {
+            "name": "Electron Main Debugger",
+            "type": "node",
+            "request": "launch",
+            "program":"${workspaceRoot}/spectron-ts/dist/electron-runner/main.js",
+            "stopOnEntry": true,
+            "args": [],
+            "cwd": "${workspaceRoot}",
+            "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/electron",
+            "runtimeArgs": [],
+            "env": {},
+            "sourceMaps": true,
+            "outFiles": []
+        }
+    ]
+}

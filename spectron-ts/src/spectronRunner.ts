@@ -9,22 +9,27 @@ let app = new Application({
   args: [path.join(__dirname, 'electron-runner', 'main')]
 });
 
-app.start().then(function () {
+function onError(error: any) {
+  let message = "Error: " + error.message; 
+  console.log(message);
+  return app.stop();
+}
+
+app.start().then(function() {
   // Check if the window is visible
-  return app.browserWindow.isVisible()
+  return app.client.isVisible("body")
 }).then(function (isVisible) {
   // Verify the window is visible
   assert.equal(isVisible, true)
 }).then(function () {
   // Get the window's title
-  return app.browserWindow.getTitle()
+  return app.client.getTitle()
 }).then(function (title) {
   // Verify the window's title
   assert.equal(title, 'My App')
-}).catch(function (error) {
-  // Log any failures
-  console.error('Test failed', error.message)
-}).then(function () {
+})
+.catch(onError)
+.then(function () {
   // Stop the application
-  return app.stop()
+  return app.stop();
 })
