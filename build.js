@@ -3,7 +3,7 @@ var exec = require('child_process').execSync;
 var fs = require('fs');
 var path = require('path');
 
-var excludedDirectories = ['css', 'images', 'dist','node_modules','webdriver-java'];
+var excludedDirectories = ['css', 'images', 'dist','node_modules','webdriver-java', 'aurelia-v1.1.5-non-keyed'];
 
 // set the following variable to resume building with a framework and skip all
 // other frameworks that would be buils before
