@@ -144,8 +144,8 @@ export class Main extends React.Component {
     // updateRow if it does exist
     // swapRows if provided
     // remove row if it exists
-    renderRows(previousState, nextState) {
-        let { changed } = nextState;
+    renderRows(previousState = {}, nextState = {}) {
+        let changed = nextState.changed ? nextState.changed : {};
 
         const addNewRowToView = (data) => {
             let newRow = new Row({
@@ -153,7 +153,7 @@ export class Main extends React.Component {
                 data: data,
                 onClick: this.select,
                 onDelete: this.delete,
-                styleClass: d.id === nextState.selected ? 'danger' : ''
+                styleClass: data.id === nextState.selected ? 'danger' : ''
             });
             this.rows.push(this.newRow);
             this.tbody.appendChild(newRow.toHtmlElem());

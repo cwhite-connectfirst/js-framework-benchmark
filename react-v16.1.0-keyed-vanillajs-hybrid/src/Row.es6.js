@@ -40,10 +40,12 @@ export class Row {
 				<td class="col-md-1"><a><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a></td>
 				<td class="col-md-6"></td>
 			</tr>`,
-			container = document.createElement('template');
+			container = document.createElement('table');
+			
+			container.appendChild(document.createElement('tbody'))
 
 			container.innerHTML = html.trim();
-			let elem = container.firstChild;
+			let elem = container.firstElementChild;
 			container.innerHTML = "";
 			container.remove();
 
