@@ -45,15 +45,12 @@ export let frameworks = [
     f("apprun-v1.7.0-keyed", true),
     f("apprun-v1.7.0-non-keyed", false),
     f("attodom-v0.4.0-keyed", true),
-    f("binding.scala-v10.0.1-keyed", true, {uri: "binding.scala-v10.0.1-keyed/target/web/stage"}),
     f("bobril-v8.0.1-keyed", true),
     f("choo-v6.5.0-keyed", true),
     f("cyclejs-dom-v19.3.0-non-keyed", false),
     f("datum-v0.10.0-keyed", true),
     f("dio-v8.1.1-keyed", true),
     f("dio-v8.1.1-non-keyed", false),
-    f("dojo2-v0.2.0-keyed", true, {uri: "dojo2-v0.2.0-keyed/dist"}),
-    f("dojo2-v0.2.0-non-keyed", false, {uri: "dojo2-v0.2.0-non-keyed/dist"}),
     f("domvm-v3.2.4-non-keyed", false),
     f("domvm-v3.2.4-keyed", true),
     f("elm-v0.18.0-keyed", true),
@@ -122,6 +119,5 @@ export let frameworks = [
     f("san-v3.2.6-non-keyed", false),
     f("vue-v2.5.3-keyed", true),
     f("vue-v2.5.3-non-keyed", false),
-    f("vuera-v0.1.3-non-keyed", false),
-    f("reagent-v0.8-keyed", true)
+    f("vuera-v0.1.3-non-keyed", false)
 ]

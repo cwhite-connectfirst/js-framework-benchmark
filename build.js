@@ -3,11 +3,11 @@ var exec = require('child_process').execSync;
 var fs = require('fs');
 var path = require('path');
 
-var excludedDirectories = ['css', 'images', 'dist','node_modules','webdriver-java', 'aurelia-v1.1.5-non-keyed'];
+var excludedDirectories = ['css', 'images', 'dist','node_modules','webdriver-java'];
 
 // set the following variable to resume building with a framework and skip all
 // other frameworks that would be buils before
-var restartWithFramework = '';
+var restartWithFramework = null;
 var build = !restartWithFramework ? true : false;
 
 _.each(fs.readdirSync('.'), function(name) {
