@@ -28,6 +28,12 @@ export class Row {
 		this.props.onClick(this.props.data.id);
 	}
 
+	destroyRow() {
+		this.cachedElem.removeChild();
+		this.cachedElem.removeEventListener("click", this.onClick);
+		this.cachedElem.querySelector(".data-delete").removeEventListener("click", this.onDelete);
+	}
+
 	toHtmlElem() {
 		if (!this.cachedElem) {
 			let {styleClass, onClick, onDelete, data} = this.props,
@@ -37,19 +43,18 @@ export class Row {
 				<td class="col-md-4">
 					<a class="data-label">${data.label}</a>
 				</td>
-				<td class="col-md-1"><a><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a></td>
+				<td class="col-md-1"><a class="data-delete"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a></td>
 				<td class="col-md-6"></td>
 			</tr>`,
-			container = document.createElement('table');
-			
-			container.appendChild(document.createElement('tbody'))
+			container = document.createElement('table').appendChild(document.createElement('tbody'));
 
 			container.innerHTML = html.trim();
 			let elem = container.firstElementChild;
 			container.innerHTML = "";
 			container.remove();
 
-			elem.onClick = this.onClick;
+			elem.addEventListener("click", this.onClick);
+			elem.querySelector(".data-delete").addEventListener("click", this.onDelete);
 			elem.onDelete = this.onDelete;
 
 			this.cachedElem = elem;

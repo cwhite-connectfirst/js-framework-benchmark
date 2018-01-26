@@ -61,10 +61,9 @@ export class Main extends React.Component {
     add() {
         startMeasure("add");
         const { id } = this.state;
-        const { oldId } = this.state;
         const obj = add(id, this.state.data);
         this.setState({ data: obj.data, id: obj.id, changed: {
-            add: Array.from(new Array(id - oldId), (x, i) => i + oldId)
+            add: Array.from(new Array(obj.id - id), (x, i) => i + (id - 1))
         }});
     }
     update() {
@@ -111,13 +110,14 @@ export class Main extends React.Component {
     swapRows() {
         startMeasure("swapRows");
         const { newData, swappedRows } = swapRows(this.state.data);
-        this.setState({ data: data, changed: {
+        this.setState({ data: newData, changed: {
             swap: swappedRows
         }});
     }
 
     componentDidMount() {
         this.tbody = document.querySelector('tbody');
+        this.rows = [];
     }
 
     /**
@@ -139,6 +139,24 @@ export class Main extends React.Component {
         return true;
     }
 
+    addNewRowToView(state, dataIndex) {
+        let data = state.data[dataIndex];
+
+        let newRow = new Row({
+            key: data.id,
+            data: data,
+            onClick: this.select,
+            onDelete: this.delete,
+            styleClass: data.id === state.selected ? 'danger' : ''
+        });
+        this.rows.push(newRow);
+        this.tbody.appendChild(newRow.toHtmlElem());
+    }
+
+    reorderRow(index) {
+        this.rows[index - 1].toHtmlElem().insertAdjacentElement("afterend", this.rows[index].toHtmlElem());
+    }
+
     // steps:
     // createRow if it doesn't exist
     // updateRow if it does exist
@@ -147,37 +165,21 @@ export class Main extends React.Component {
     renderRows(previousState = {}, nextState = {}) {
         let changed = nextState.changed ? nextState.changed : {};
 
-        const addNewRowToView = (data) => {
-            let newRow = new Row({
-                key: data.id,
-                data: data,
-                onClick: this.select,
-                onDelete: this.delete,
-                styleClass: data.id === nextState.selected ? 'danger' : ''
-            });
-            this.rows.push(this.newRow);
-            this.tbody.appendChild(newRow.toHtmlElem());
-        }
-
-        const reorderRow = (index) => {
-            this.rows[index - 1].toHtmlElem().insertAdjacentElement("afterend", this.rows[index].toHtmlElem());
-        }
-
         switch (Object.keys(changed)[0]) {
             case "all": 
                 this.tbody.innerHTML = "";
                 this.rows = [];
-                nextState.data.forEach((d) => addNewRowToView(d));
+                nextState.data.forEach((d) => this.addNewRowToView(d));
                 break;
             case "add":
-                changed.add.forEach((dataIndex) => addNewRowToView(nextState.data[dataIndex]));
+                changed.add.forEach((dataIndex) => this.addNewRowToView(nextState, dataIndex));
                 break;
             case "update":
-                changed.update.forEach((dataIndex) => this.rows[dataIndex].update({data: this.data[dataIndex]}));
+                changed.update.forEach((dataIndex) => this.rows[dataIndex].update({data: nextState.data[dataIndex]}));
                 break;
             case "delete":
                 changed.delete.forEach((dataIndex, i) => {
-                    this.rows[dataIndex].toHtmlElem().remove();
+                    this.rows[dataIndex].destroyRow();
                     this.rows.splice(dataIndex - i, 1);
                 });
                 break;
@@ -192,15 +194,15 @@ export class Main extends React.Component {
                 break;
             case "select":
                 const {oldId, newId} = changed.select;
-                let oldIdFound = newIdFound = false;
+                let oldIdFound = false, newIdFound = false;
 
                 for (let i = 0; i < this.rows.length; i++) {
-                    if (this.rows[i].key == oldId) {
+                    if (this.rows[i].props.key == oldId) {
                         this.rows[i].update({styleClass: ''})
                         oldIdFound = true;
                     }
 
-                    if (this.rows[i].key == newId) {
+                    if (this.rows[i].props.key == newId) {
                         this.rows[i].update({styleClass: 'danger'});
                         newIdFound = true;
                     }

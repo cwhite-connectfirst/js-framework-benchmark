@@ -25,9 +25,11 @@ export const buildData = (id, count = 1000) => {
 }
 
 export const add = (id, data) => {
-    const newData = buildData(id, 1000);
+    let newData = buildData(id, 1000),
+        newDataArr = newData.data,
+        newId = newData.id;
 
-    return { data: data.push(...newData), id: newData.id };
+    return { data: [...data, ...newDataArr], id: newId };
 }
 export const run = (id) => {
     return buildData(id);
