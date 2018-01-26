@@ -12,7 +12,7 @@ const updateData = (data, mod = 10) => {
         newData[i] = Object.assign({}, newData[i], { label: newData[i].label + ' !!!' });
         updatedIndecies.push(i);
     }
-    return { newData: newData, updateData: updatedIndecies };
+    return { newData: newData, updatedData: updatedIndecies };
 }
 export const buildData = (id, count = 1000) => {
     var adjectives = ["pretty", "large", "big", "small", "tall", "short", "long", "handsome", "plain", "quaint", "clean", "elegant", "easy", "angry", "crazy", "helpful", "mushy", "odd", "unsightly", "adorable", "important", "inexpensive", "cheap", "expensive", "fancy"];
