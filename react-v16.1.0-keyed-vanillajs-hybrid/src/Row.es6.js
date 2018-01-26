@@ -20,16 +20,18 @@ export class Row {
 		}
 	}
 
-	onDelete() {
+	onDelete(e) {
+		e.preventDefault();
 		this.props.onDelete(this.props.data.id);
 	}
 
-	onClick() {
+	onClick(e) {
+		e.preventDefault();
 		this.props.onClick(this.props.data.id);
 	}
 
 	destroyRow() {
-		this.cachedElem.removeChild();
+		this.cachedElem.remove();
 		this.cachedElem.removeEventListener("click", this.onClick);
 		this.cachedElem.querySelector(".data-delete").removeEventListener("click", this.onDelete);
 	}

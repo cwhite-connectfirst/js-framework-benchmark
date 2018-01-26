@@ -90,7 +90,7 @@ export class Main extends React.Component {
         startMeasure("delete");
         const data = deleteRow(this.state.data, id);
         this.setState({ data: data, changed: {
-            delete: [id]
+            delete: id
         }});
     }
     runLots() {
@@ -169,7 +169,7 @@ export class Main extends React.Component {
             case "all": 
                 this.tbody.innerHTML = "";
                 this.rows = [];
-                nextState.data.forEach((d) => this.addNewRowToView(d));
+                nextState.data.forEach((d, i) => this.addNewRowToView(nextState, i));
                 break;
             case "add":
                 changed.add.forEach((dataIndex) => this.addNewRowToView(nextState, dataIndex));
@@ -178,10 +178,7 @@ export class Main extends React.Component {
                 changed.update.forEach((dataIndex) => this.rows[dataIndex].update({data: nextState.data[dataIndex]}));
                 break;
             case "delete":
-                changed.delete.forEach((dataIndex, i) => {
-                    this.rows[dataIndex].destroyRow();
-                    this.rows.splice(dataIndex - i, 1);
-                });
+                this.rows.find((row) => row.props.key == changed.delete).destroyRow();
                 break;
             case "swap":
                 const {indexA, indexB} = changed.swap;
@@ -212,7 +209,6 @@ export class Main extends React.Component {
                     }
                 }
                 break;
-                
         }
     }
 
