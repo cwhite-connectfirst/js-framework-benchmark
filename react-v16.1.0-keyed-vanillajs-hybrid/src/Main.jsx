@@ -186,8 +186,8 @@ export class Main extends React.Component {
                 let temp = this.rows[indexA];
                 this.rows[indexA] = this.rows[indexB];
                 this.rows[indexB] = temp;
-                reorderRow(indexA);
-                reorderRow(indexB);
+                this.reorderRow(indexA);
+                this.reorderRow(indexB);
                 break;
             case "select":
                 const {oldId, newId} = changed.select;
